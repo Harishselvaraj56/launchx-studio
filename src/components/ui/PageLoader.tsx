@@ -1,9 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 
-// Only show on hard refresh / first visit (not internal SPA navigation)
-const hasLoaded = { current: false };
-
 const DURATION = 1400; // total ms before fade-out starts
+
 
 interface Particle {
   id: number;

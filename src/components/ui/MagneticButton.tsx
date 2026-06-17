@@ -1,14 +1,24 @@
-import { useRef, useState, type ReactNode } from 'react';
+import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 
-interface MagneticButtonProps {
-  children: ReactNode;
-  className?: string;
-  onClick?: () => void;
+// Omit handlers that Framer Motion redefines with incompatible signatures
+type SafeButtonProps = Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  'onAnimationStart' | 'onDrag' | 'onDragEnd' | 'onDragStart'
+>;
+
+interface MagneticButtonProps extends SafeButtonProps {
+  children: React.ReactNode;
   intensity?: number;
 }
 
-const MagneticButton = ({ children, className = '', onClick, intensity = 0.5 }: MagneticButtonProps) => {
+const MagneticButton = ({
+  children,
+  className = '',
+  onClick,
+  intensity = 0.5,
+  ...rest
+}: MagneticButtonProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
@@ -33,6 +43,7 @@ const MagneticButton = ({ children, className = '', onClick, intensity = 0.5 }: 
       onMouseLeave={handleMouseLeave}
       animate={{ x: position.x, y: position.y }}
       transition={{ type: 'spring', stiffness: 150, damping: 15, mass: 0.1 }}
+      {...rest}
     >
       {children}
     </motion.button>
@@ -40,3 +51,4 @@ const MagneticButton = ({ children, className = '', onClick, intensity = 0.5 }: 
 };
 
 export default MagneticButton;
+

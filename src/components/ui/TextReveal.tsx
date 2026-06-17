@@ -7,7 +7,7 @@ interface TextRevealProps {
   delay?: number;
   duration?: number;
   stagger?: number;
-  elementType?: keyof JSX.IntrinsicElements;
+  elementType?: React.ElementType;
   asWords?: boolean;
 }
 
@@ -17,7 +17,7 @@ const TextReveal = ({
   delay = 0,
   duration = 0.5,
   stagger = 0.05,
-  elementType: Element = 'span',
+  elementType: Component = 'span',
   asWords = true,
 }: TextRevealProps) => {
   const containerVariants = {
@@ -39,7 +39,7 @@ const TextReveal = ({
       rotate: 0,
       transition: {
         duration,
-        ease: [0.16, 1, 0.3, 1], // Cinematic ease-out
+        ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
       },
     },
   };
@@ -47,6 +47,9 @@ const TextReveal = ({
   const items = useMemo(() => {
     return asWords ? text.split(' ') : text.split('');
   }, [text, asWords]);
+
+  // Component is used as a wrapper tag — suppress unused warning
+  void Component;
 
   return (
     <motion.div

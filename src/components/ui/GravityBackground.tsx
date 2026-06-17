@@ -5,7 +5,6 @@ const isMobile = () => window.innerWidth < 768;
 
 const GravityBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   // Floating geometric shapes data — only created on desktop
   const shapesData = useRef(
@@ -208,7 +207,7 @@ const GravityBackground = () => {
         {shapesData.current.map((shape) => (
           <div
             key={shape.id}
-            ref={(el) => (shape.element = el)}
+            ref={(el) => { shape.element = el; }}
             style={{
               position: 'absolute',
               top: 0,
