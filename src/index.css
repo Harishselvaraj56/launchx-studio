@@ -1,0 +1,764 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-background: #F9FAFB;
+  --color-accent: #FF7A00;
+  --font-sans: "Outfit", sans-serif;
+}
+
+:root {
+  --bg: #F9FAFB;
+  --bg2: #EEF2F7;
+  --accent: #FF7A00;
+  --card: rgba(255, 255, 255, 0.65);
+  --card-solid: #FFFFFF;
+  --border: rgba(0, 0, 0, 0.07);
+  --border-card: rgba(255, 255, 255, 0.45);
+  --border-hover: rgba(255, 122, 0, 0.28);
+  --text-primary: #111827;
+  --text-muted: #6B7280;
+  --text-subtle: #9CA3AF;
+  --navbar-h: 80px;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 16px 50px rgba(0, 0, 0, 0.10);
+  --glow-idle: 0 0 0 0 rgba(255, 122, 0, 0);
+  --glow-hover: 0 8px 32px rgba(255, 122, 0, 0.12), 0 0 0 1px rgba(255, 122, 0, 0.08);
+}
+
+html { scroll-behavior: smooth; }
+
+/* ─── Body + Global Animated Background ─────────────────── */
+body {
+  background: linear-gradient(145deg, #F9FAFB 0%, #EEF2F7 100%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  font-family: "Outfit", sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+}
+
+/* ─── Animated ambient background blobs ────────────────────── */
+/* Applied via the #lx-bg element added in App.tsx */
+#lx-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0.15; /* Extremely subtle container-level opacity matching user spec (0.1–0.2) */
+  filter: blur(90px); /* Soft gradient mesh blur */
+}
+
+#lx-bg::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  left: -20%;
+  width: 70vw;
+  height: 70vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 122, 0, 0.65) 0%, transparent 70%); /* Primary Accent: #FF7A00 */
+  animation: blobDrift1 30s ease-in-out infinite alternate;
+  will-change: transform, opacity;
+}
+
+#lx-bg::after {
+  content: '';
+  position: absolute;
+  bottom: -20%;
+  right: -20%;
+  width: 65vw;
+  height: 65vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.35) 0%, transparent 70%); /* Soft Indigo accent */
+  animation: blobDrift2 26s ease-in-out infinite alternate;
+  will-change: transform, opacity;
+}
+
+.lx-bg-blob3 {
+  position: absolute;
+  top: 30%;
+  left: 45%;
+  width: 60vw;
+  height: 60vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 122, 0, 0.45) 0%, transparent 70%); /* Primary Accent: #FF7A00 */
+  animation: blobDrift3 28s ease-in-out infinite alternate;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+/* 4th blob: bottom-left soft indigo accent */
+.lx-bg-blob4 {
+  position: absolute;
+  bottom: 35%;
+  left: -10%;
+  width: 50vw;
+  height: 50vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, transparent 70%);
+  animation: blobDrift4 24s ease-in-out infinite alternate;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+@keyframes blobDrift1 {
+  0%   { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); opacity: 0.8; }
+  33%  { transform: translate3d(5vw, 6vh, 0) scale(1.06) rotate(60deg); opacity: 1; }
+  66%  { transform: translate3d(-3vw, 10vh, 0) scale(0.94) rotate(120deg); opacity: 0.85; }
+  100% { transform: translate3d(4vw, 3vh, 0) scale(1.03) rotate(180deg); opacity: 0.9; }
+}
+@keyframes blobDrift2 {
+  0%   { transform: translate3d(0, 0, 0) scale(0.95) rotate(0deg); opacity: 0.85; }
+  33%  { transform: translate3d(-6vw, -8vh, 0) scale(1.05) rotate(-80deg); opacity: 0.95; }
+  66%  { transform: translate3d(3vw, -4vh, 0) scale(0.97) rotate(-160deg); opacity: 0.8; }
+  100% { transform: translate3d(-4vw, -7vh, 0) scale(1.02) rotate(-240deg); opacity: 0.9; }
+}
+@keyframes blobDrift3 {
+  0%   { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); opacity: 0.8; }
+  33%  { transform: translate3d(6vw, -8vh, 0) scale(1.08) rotate(70deg); opacity: 0.95; }
+  66%  { transform: translate3d(-4vw, 5vh, 0) scale(0.96) rotate(140deg); opacity: 0.85; }
+  100% { transform: translate3d(3vw, -5vh, 0) scale(1.04) rotate(210deg); opacity: 0.9; }
+}
+@keyframes blobDrift4 {
+  0%   { transform: translate3d(0, 0, 0) scale(0.9) rotate(0deg); opacity: 0.75; }
+  50%  { transform: translate3d(8vw, 6vh, 0) scale(1.08) rotate(-90deg); opacity: 0.95; }
+  100% { transform: translate3d(-5vw, -4vh, 0) scale(0.95) rotate(-180deg); opacity: 0.8; }
+}
+
+/* ─── All page content above bg ─────────────────────────── */
+#root > * { position: relative; z-index: 1; }
+section { position: relative; z-index: 1; }
+
+/* ─── Container ─────────────────────────────────────────── */
+.container, .lx-container {
+  max-width: 1280px !important;
+  margin: 0 auto !important;
+  padding-left: 60px !important;
+  padding-right: 60px !important;
+}
+@media (max-width: 768px) {
+  .container, .lx-container {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+}
+@media (max-width: 480px) {
+  .container, .lx-container {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+}
+
+/* ─── Section spacing ────────────────────────────────────── */
+.lx-section {
+  padding-top: 120px;
+  padding-bottom: 120px;
+}
+@media (max-width: 768px) {
+  .lx-section { padding-top: 72px; padding-bottom: 72px; }
+}
+
+/* ─── Typography ─────────────────────────────────────────── */
+.lx-display {
+  font-size: clamp(2.75rem, 6.5vw, 7rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.96;
+  color: var(--text-primary);
+}
+.lx-heading {
+  font-size: clamp(2rem, 3.5vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  color: var(--text-primary);
+}
+.lx-subheading {
+  font-size: clamp(1.1rem, 2vw, 1.75rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+.lx-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.lx-body {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--text-muted);
+}
+.lx-gradient {
+  background: linear-gradient(135deg, #111827 0%, #4B5563 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.text-gradient-purple {
+  background: linear-gradient(135deg, #FF7A00 0%, #E05E00 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ─── Glass Cards ────────────────────────────────────────── */
+.lx-card, .glass-card {
+  background: var(--card);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-card);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), var(--glow-idle);
+  /* NOTE: transform is intentionally omitted here —
+     .lx-tilt-card handles perspective + tilt via JS rAF.
+     We only transition border-color and box-shadow via CSS. */
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* When TiltCard is NOT used (fallback plain hover) */
+.lx-card:not(.lx-tilt-card):hover,
+.glass-card:not(.lx-tilt-card):hover {
+  transform: translateY(-4px) scale(1.015);
+  border-color: rgba(255, 122, 0, 0.22);
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.12),
+    var(--glow-hover);
+}
+
+/* Hover border upgrade — works for both tilt and plain cards */
+.lx-card:hover, .glass-card:hover {
+  border-color: rgba(255, 122, 0, 0.22);
+}
+
+/* ─── Idle Glow Pulse ────────────────────────────────────── */
+.lx-card-glow {
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.08),
+    0 0 24px rgba(255, 122, 0, 0.06);
+}
+.lx-card-glow:hover {
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.12),
+    0 0 40px rgba(255, 122, 0, 0.16);
+}
+
+.lx-card .icon-wrapper svg, .glass-card .icon-wrapper svg {
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.lx-card:hover .icon-wrapper svg, .glass-card:hover .icon-wrapper svg {
+  transform: scale(1.12) rotate(4deg);
+}
+
+/* ─── TiltCard Wrapper ───────────────────────────────────── */
+/* The JS-driven 3D perspective tilt component */
+.lx-tilt-card {
+  transform-style: preserve-3d;
+  will-change: transform, box-shadow;
+  /* transition handled inline on the element */
+}
+
+/* ─── Idle Float Animation ───────────────────────────────── */
+/* Very subtle: 0 → -5px → 0, 5s loop — barely noticeable */
+.lx-float {
+  animation: lxFloat 5s ease-in-out infinite;
+}
+/* Stagger siblings with nth-child so cards don't move in sync */
+.lx-float:nth-child(2) { animation-delay: -1.6s; }
+.lx-float:nth-child(3) { animation-delay: -3.2s; }
+.lx-float:nth-child(4) { animation-delay: -0.8s; }
+.lx-float:nth-child(5) { animation-delay: -2.4s; }
+.lx-float:nth-child(6) { animation-delay: -4.0s; }
+
+/* Pause float when the card is being hovered/tilted */
+.lx-tilt-card:hover .lx-float,
+.lx-tilt-card:hover {
+  animation-play-state: paused;
+}
+
+@keyframes lxFloat {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-5px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Disable float on touch/coarse-pointer devices */
+@media (pointer: coarse) {
+  .lx-float { animation: none; }
+}
+
+/* ─── Ambient Section Glow Divider ──────────────────────── */
+.lx-section-alt {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.lx-section-alt::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 120px;
+  background: radial-gradient(ellipse at center, rgba(255, 122, 0, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Buttons ────────────────────────────────────────────── */
+.lx-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent);
+  color: #fff;
+  padding: 13px 28px;
+  border-radius: 100px;
+  font-weight: 700;
+  font-size: 0.925rem;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+  box-shadow: 0 4px 18px rgba(255, 122, 0, 0.28);
+}
+.lx-btn-primary:hover {
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 10px 30px rgba(255, 122, 0, 0.38);
+}
+.lx-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  color: var(--text-primary);
+  padding: 13px 28px;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 0.925rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.lx-btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: rgba(255, 122, 0, 0.2);
+  transform: scale(1.03);
+}
+
+/* ─── Dividers ────────────────────────────────────────────── */
+.lx-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.14); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 122, 0, 0.35); }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ─── Timeline line ──────────────────────────────────────── */
+.timeline-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--border);
+  transform: translateX(-50%);
+}
+@media (max-width: 768px) {
+  .timeline-line { left: 20px; transform: none; }
+}
+
+/* ─── Ambient glow behind hero ───────────────────────────── */
+.lx-hero-glow {
+  position: absolute;
+  top: 10%;
+  right: 5%;
+  width: 50vw;
+  height: 50vw;
+  max-width: 700px;
+  max-height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 122, 0, 0.07) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+  animation: heroPulse 8s ease-in-out infinite alternate;
+  will-change: opacity, transform;
+}
+@keyframes heroPulse {
+  0%   { opacity: 0.7; transform: scale(0.95); }
+  100% { opacity: 1;   transform: scale(1.05); }
+}
+
+/* ─── Section ambient accent line ───────────────────────── */
+.lx-section-glow-top::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,122,0,0.25), transparent);
+}
+
+/* ════════════════════════════════════════════════════════
+   PREMIUM MICRO-INTERACTIONS — Polish Layer
+   ════════════════════════════════════════════════════════ */
+
+/* ─── Button Shine Sweep ─────────────────────────────────── */
+.lx-btn-primary {
+  position: relative;
+  overflow: hidden;
+}
+.lx-btn-primary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.25) 50%, transparent 100%);
+  transform: skewX(-20deg);
+  transition: none;
+  pointer-events: none;
+}
+.lx-btn-primary:hover::after {
+  left: 150%;
+  transition: left 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─── Ghost Button Shine ────────────────────────────────── */
+.lx-btn-ghost {
+  position: relative;
+  overflow: hidden;
+}
+.lx-btn-ghost::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%; height: 100%;
+  background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.35) 50%, transparent 100%);
+  transform: skewX(-20deg);
+  pointer-events: none;
+}
+.lx-btn-ghost:hover::after {
+  left: 150%;
+  transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─── Pre-footer CTA button shine ───────────────────────── */
+.lx-cta-shine {
+  position: relative;
+  overflow: hidden;
+}
+.lx-cta-shine::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%; height: 100%;
+  background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+  transform: skewX(-20deg);
+  pointer-events: none;
+}
+.lx-cta-shine:hover::after {
+  left: 150%;
+  transition: left 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─── Portfolio Image Zoom on Hover ─────────────────────── */
+.portfolio-img-zoom {
+  overflow: hidden;
+}
+.portfolio-img-zoom img {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+}
+.portfolio-img-zoom:hover img {
+  transform: scale(1.07);
+  opacity: 1;
+}
+
+/* ─── Card Depth Hover (extra polish layer) ─────────────── */
+.lx-card, .glass-card {
+  transition:
+    border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.lx-card:not(.lx-tilt-card):hover,
+.glass-card:not(.lx-tilt-card):hover {
+  transform: translateY(-6px) scale(1.016);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.12),
+    0 0 0 1px rgba(255, 122, 0, 0.10),
+    0 8px 32px rgba(255, 122, 0, 0.08);
+}
+
+/* ─── Contact Form Focus Glow ────────────────────────────── */
+input:focus, textarea:focus {
+  caret-color: #FF7A00;
+}
+/* Focus border glow for dark-bg forms */
+.focus-glow:focus {
+  border-bottom-color: #FF6B00 !important;
+  box-shadow: 0 4px 16px rgba(255, 107, 0, 0.15);
+}
+
+/* ─── WhatsApp FAB Tooltip ───────────────────────────────── */
+.wa-fab-tooltip {
+  position: fixed;
+  right: 92px;
+  bottom: 34px;
+  z-index: 9998;
+  background: rgba(17, 24, 39, 0.9);
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.wa-fab-tooltip::after {
+  content: '';
+  position: absolute;
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0; height: 0;
+  border-left: 6px solid rgba(17, 24, 39, 0.9);
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
+#wa-fab:hover + .wa-fab-tooltip,
+#wa-fab:focus + .wa-fab-tooltip {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ─── Animated active nav underline ─────────────────────── */
+.nav-link-active-underline {
+  position: relative;
+}
+.nav-link-active-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0; right: 0;
+  height: 2px;
+  background: #FF6B00;
+  border-radius: 2px;
+  transform-origin: left;
+  animation: navUnderlineIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes navUnderlineIn {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* ─── Pricing Card hover elevation ──────────────────────── */
+.pricing-card-hover {
+  transition:
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.pricing-card-hover:hover {
+  transform: translateY(-8px) scale(1.01) !important;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,107,0,0.25) !important;
+  border-color: rgba(255,107,0,0.4) !important;
+}
+
+/* ─── Scroll Progress bar smooth fade-in ────────────────── */
+@keyframes progressFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   MOBILE-FIRST RESPONSIVE LAYER
+   ══════════════════════════════════════════════════════════ */
+
+/* ─── Global: prevent horizontal overflow on all devices ─── */
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* ─── Gravity background: hide canvas + shapes on mobile ── */
+@media (max-width: 767px) {
+  #tsparticles,
+  canvas[style] {
+    display: none !important;
+  }
+  /* Reduce ambient glow opacity on mobile for perf */
+  [style*="blur(100px)"] {
+    filter: blur(60px) !important;
+    opacity: 0.2 !important;
+  }
+}
+
+/* ─── Container: safe padding on small screens ────────────── */
+@media (max-width: 480px) {
+  .container, .lx-container {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+}
+
+/* ─── Section spacing: tighter on mobile ──────────────────── */
+@media (max-width: 768px) {
+  .section-padding,
+  .lx-section {
+    padding-top: 64px !important;
+    padding-bottom: 64px !important;
+  }
+  /* Pre-footer CTA tighter */
+  section[style*="120px 0"] {
+    padding: 72px 0 !important;
+  }
+}
+
+/* ─── Typography scaling ──────────────────────────────────── */
+@media (max-width: 480px) {
+  .lx-display {
+    font-size: clamp(2rem, 10vw, 3rem) !important;
+    line-height: 1.05 !important;
+  }
+  .lx-heading {
+    font-size: clamp(1.6rem, 7vw, 2.2rem) !important;
+  }
+  .text-huge,
+  h1[class*="text-huge"] {
+    font-size: clamp(2.25rem, 10vw, 3.5rem) !important;
+  }
+}
+
+/* ─── Cards: full width on mobile ────────────────────────── */
+@media (max-width: 640px) {
+  .lx-card, .glass-card {
+    border-radius: 12px !important;
+  }
+  /* Disable hover lift on touch devices */
+  @media (hover: none) {
+    .lx-card:hover, .glass-card:hover,
+    .pricing-card-hover:hover {
+      transform: none !important;
+    }
+  }
+}
+
+/* ─── Pricing cards: prevent overflow on mobile ───────────── */
+@media (max-width: 768px) {
+  .pricing-card-hover {
+    transform: none !important;
+  }
+}
+
+/* ─── Hero 3D scene: scale down on small screens ──────────── */
+@media (max-width: 640px) {
+  .hero-3d-scene {
+    transform: scale(0.72) !important;
+    transform-origin: top center !important;
+    height: 300px !important;
+    margin-top: 0 !important;
+  }
+}
+@media (max-width: 380px) {
+  .hero-3d-scene {
+    transform: scale(0.6) !important;
+    height: 260px !important;
+  }
+}
+
+/* ─── Portfolio horizontal scroll: touch-friendly ─────────── */
+@media (max-width: 768px) {
+  /* The portfolio uses sticky scroll — add momentum scrolling */
+  #portfolio {
+    height: auto !important;
+  }
+  /* Fallback: stack cards vertically on mobile */
+  #portfolio .motion-div-track,
+  #portfolio [style*="display: flex"][style*="gap: 2.5rem"] {
+    flex-direction: column !important;
+    padding: 0 16px !important;
+    gap: 2rem !important;
+  }
+  #portfolio [style*="position: sticky"] {
+    position: relative !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+  #portfolio [style*="width: clamp(320px"] {
+    width: 100% !important;
+  }
+}
+
+/* ─── WhatsApp FAB safe area ─────────────────────────────── */
+@media (max-width: 768px) {
+  #wa-fab {
+    right: 16px !important;
+    bottom: max(16px, env(safe-area-inset-bottom, 16px)) !important;
+    width: 52px !important;
+    height: 52px !important;
+  }
+  /* Tooltip hidden on mobile — no hover on touch */
+  .wa-fab-tooltip {
+    display: none !important;
+  }
+}
+
+/* ─── Image lazy loading fade-in ────────────────────────── */
+img[loading="lazy"] {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+img[loading="lazy"].loaded {
+  opacity: 1;
+}
+
+/* ─── Focus-visible keyboard ring ────────────────────────── */
+:focus-visible {
+  outline: 2px solid #FF7A00;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ─── Reduce motion for accessibility ────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  #wa-fab {
+    animation: none !important;
+  }
+}
