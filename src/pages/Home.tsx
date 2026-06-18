@@ -878,64 +878,7 @@ const Home = () => {
         </div>
       </section>
  
-      {/* ━━━ TESTIMONIALS CAROUSEL SECTION ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <section className="lx-section" style={{ borderTop: '1px solid rgba(0, 0, 0, 0.06)', background: 'var(--bg2)', overflow: 'hidden' }}>
-        <div className="container mx-auto" style={{ marginBottom: '4rem' }}>
-          <div style={{ textAlign: 'center' }}>
-            <p className="lx-eyebrow" style={{ marginBottom: '1rem' }}>Reviews</p>
-            <h2 className="lx-heading" style={{ color: '#111827' }}>
-              <TextReveal text="Trusted by Ambitious" /> <span style={{ color: 'rgba(17, 24, 39, 0.3)' }}><TextReveal text="Brands." delay={0.2} /></span>
-            </h2>
-          </div>
-        </div>
 
-        <div style={{ position: 'relative', overflow: 'hidden' }}>
-          <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '150px', background: 'linear-gradient(to right, var(--bg2), transparent)', zIndex: 3, pointerEvents: 'none' }} />
-          <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '150px', background: 'linear-gradient(to left, var(--bg2), transparent)', zIndex: 3, pointerEvents: 'none' }} />
-
-          <motion.div
-            style={{ display: 'flex', gap: '1.5rem', width: 'max-content' }}
-            animate={{ x: [0, -1500] }}
-            transition={{ duration: 35, repeat: Infinity, ease: 'linear' }}
-          >
-            {[
-              { text: "LaunchX Studio completely transformed our online presence and helped us generate more leads.", name: "Rajesh Kumar", role: "CEO, FitLife Brand", initials: "RK" },
-              { text: "300% engagement increase in one month. The social media strategy and video reel editing are brilliant.", name: "Priya Sharma", role: "Marketing Director, Bloom", initials: "PS" },
-              { text: "Delivered in record time. Our landing page has a 38% conversion rate now.", name: "Arjun Mehta", role: "Founder, TechStart", initials: "AM" },
-              { text: "The e-commerce store they built automated our ordering. Revenue up 4x within 4 months.", name: "Meena Iyer", role: "Owner, Spice Route", initials: "MI" },
-              { text: "Premium quality coding. They understood our brand DNA perfectly.", name: "David Chen", role: "Co-founder, NovaTech", initials: "DC" },
-              { text: "LaunchX Studio completely transformed our online presence and helped us generate more leads.", name: "Rajesh Kumar", role: "CEO, FitLife Brand", initials: "RK" },
-              { text: "300% engagement increase in one month. The social media strategy and video reel editing are brilliant.", name: "Priya Sharma", role: "Marketing Director, Bloom", initials: "PS" },
-              { text: "Delivered in record time. Our landing page has a 38% conversion rate now.", name: "Arjun Mehta", role: "Founder, TechStart", initials: "AM" }
-            ].map((t, i) => (
-              <div 
-                key={i} 
-                className="glass-card"
-                style={{ flexShrink: 0, width: '420px', padding: '2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
-              >
-                <div>
-                  <div style={{ display: 'flex', gap: '4px', marginBottom: '1.25rem' }}>
-                    {[...Array(5)].map((_, j) => <Star key={j} size={14} style={{ color: '#FF7A00', fill: '#FF7A00' }} />)}
-                  </div>
-                  <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', lineHeight: 1.7, marginBottom: '2rem' }}>
-                    "{t.text}"
-                  </p>
-                </div>
-                
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: '#FF6B00', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '0.9rem', color: '#fff' }}>
-                    {t.initials}
-                  </div>
-                  <div>
-                    <h4 style={{ color: '#111827', fontWeight: 700, fontSize: '0.95rem' }}>{t.name}</h4>
-                    <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>{t.role}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
 
       {/* ━━━ PROCESS / WORKFLOW SECTION ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <section className="lx-section" style={{ borderTop: '1px solid rgba(0, 0, 0, 0.06)' }}>
