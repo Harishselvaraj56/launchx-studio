@@ -40,7 +40,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
   position: relative;
 }
+* {
+  -webkit-tap-highlight-color: transparent;
+}
 
+body {
+  scroll-behavior: smooth;
+}
+
+.card {
+  will-change: transform;
+}
 /* ─── Animated ambient background blobs ────────────────────── */
 /* Applied via the #lx-bg element added in App.tsx */
 #lx-bg {
@@ -762,3 +772,58 @@ img[loading="lazy"].loaded {
     animation: none !important;
   }
 }
+
+/* ══════════════════════════════════════════════════════════
+   MOBILE PERFORMANCE OPTIMIZATIONS (USER REQUEST)
+   ══════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+  /* 1. Disable 3D tilt effect on cards (overrides inline JS styles) */
+  .lx-tilt-card {
+    transform: none !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+  }
+  
+  /* 2. Remove hover-based effects & keep static clean design */
+  .lx-card, .glass-card, .lx-tilt-card {
+    transition: none !important;
+  }
+  .lx-card:hover, .glass-card:hover, .pricing-card-hover:hover {
+    transform: none !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+    border-color: var(--border-card) !important;
+  }
+  
+  /* 3. Disable glass reflection animation (shimmer) */
+  .lx-tilt-card > div[aria-hidden="true"] {
+    display: none !important;
+  }
+
+  /* 4. Background blobs and animations */
+  #lx-bg, .lx-bg-blob3, .lx-bg-blob4 {
+    animation: none !important;
+    display: none !important;
+  }
+
+  /* 5. Keep only simple animations & reduce duration */
+  * {
+    animation-duration: 0.4s !important; /* Forces 0.4s max for CSS animations */
+    transition-duration: 0.3s !important; 
+  }
+  
+  /* Re-enable static clean design with shadow */
+  .lx-card, .glass-card {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+    border: 1px solid var(--border-card) !important;
+  }
+
+  /* Simplify floats */
+  .lx-float {
+    animation: none !important;
+  }
+
+  /* Remove will-change where not strictly necessary on mobile */
+  .lx-tilt-card, .lx-hero-glow, #lx-bg::before, #lx-bg::after {
+    will-change: auto !important;
+  }
+}
+

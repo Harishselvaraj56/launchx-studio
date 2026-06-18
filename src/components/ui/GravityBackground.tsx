@@ -1,14 +1,21 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 
-const isMobile = () => window.innerWidth < 768;
+const getIsMobile = () => typeof window !== 'undefined' ? window.innerWidth < 768 : false;
 
 const GravityBackground = () => {
+  const [isMobile, setIsMobile] = useState(getIsMobile());
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(getIsMobile());
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Floating geometric shapes data — only created on desktop
   const shapesData = useRef(
-    Array.from({ length: isMobile() ? 0 : 12 }).map((_, i) => {
+    Array.from({ length: isMobile ? 0 : 12 }).map((_, i) => {
       const type = ['circle', 'square', 'triangle', 'glass-card'][Math.floor(Math.random() * 4)];
       let width = Math.random() * 60 + 40;
       let height = width;
@@ -35,7 +42,7 @@ const GravityBackground = () => {
 
   // Main Physics and Particle Engine — skipped on mobile
   useEffect(() => {
-    if (isMobile()) return; // 📱 Skip heavy canvas on mobile
+    if (isMobile) return; // 📱 Skip heavy canvas on mobile
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -156,6 +163,17 @@ const GravityBackground = () => {
       cancelAnimationFrame(animationFrame);
     };
   }, []);
+
+  if (isMobile) {
+    return (
+      <div 
+        style={{ 
+          position: 'fixed', inset: 0, zIndex: -1, pointerEvents: 'none', overflow: 'hidden',
+          background: 'linear-gradient(145deg, #F9FAFB 0%, #EEF2F7 100%)'
+        }}
+      />
+    );
+  }
 
   return (
     <div 
